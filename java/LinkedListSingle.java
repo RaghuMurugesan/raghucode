@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 class Node {
 
 	private Node next;
@@ -122,33 +127,64 @@ public class LinkedListSingle extends Node{
 
 		LinkedListSingle testList = new LinkedListSingle();
 		
-		if (args.length > 0) {
+		if  (args.length != 1)  {
+				System.out.println("No input file to create a list. EXIT");
+				System.exit(1);
+			}
+		else{
+////////////
+			String csvFile = args[0];
+			BufferedReader inputstream = null;
+			String line = "";
+			String cvsSplitBy = ",";
 
 			int data;
 			int dataCount = 0;
-			System.out.print("Singly linked list created");
 			
-			for (String s: args) {
-					
-				try {
-			        data = Integer.parseInt(s);
-			    } 
-			    catch (NumberFormatException e) {
-			        System.err.println("Argument" + s + " must be an integer.");
-			        continue;
-			    }
-				testList.addData(data);
-				dataCount ++;
+
+			try {
+ 
+				inputstream = new BufferedReader(new FileReader(csvFile));
+				if((line = inputstream.readLine())!= null) {
+					System.out.print("Singly linked list created");
+				}
+				while ((line = inputstream.readLine())!= null) {
+ 
+			        // use comma as separator
+					String[] values = line.split(cvsSplitBy);
+	 				
+					for (String s: values) {
+						
+						try {
+					        data = Integer.parseInt(s);
+					    } 
+					    catch (NumberFormatException e) {
+					        System.err.println("Argument" + s + " must be an integer.");
+					        continue;
+					    }
+						testList.addData(data);
+						dataCount ++;
+					}
+ 				}
+ 			} catch (FileNotFoundException e) {
+ 				e.printStackTrace();
+ 			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (inputstream != null) {
+					try {
+						inputstream.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 
+////////////
 			System.out.print(" ---> Data added to the list  ---> Total data added = "+ dataCount);
 
 			}
-			else {
-				testList = null;
-				System.out.println("No List Created");
-				System.exit(1);
-			}
+			
 		
 		int a = 1;
 		
