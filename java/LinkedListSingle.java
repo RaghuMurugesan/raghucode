@@ -51,7 +51,7 @@ class Node {
 }
 
 
-public class LinkedListSingle extends Node{
+public class LinkedListSingle { //extends Node{
 
 	private Node list;
 	private int listLength;
